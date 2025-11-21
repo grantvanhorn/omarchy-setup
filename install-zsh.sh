@@ -3,4 +3,5 @@
 # Install Zsh
 if ! command -v zsh &>/dev/null; then
     yay -S --noconfirm --needed zsh
+    yay -S --noconfirm --needed zsh-autosuggestions
 fi

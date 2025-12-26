@@ -6,6 +6,7 @@
 . ./install-ghostty.sh
 . ./install-nvm.sh
 . ./install-stow.sh
+. ./install-tmux.sh
 . ./install-zsh.sh
 
 # Install overrides after everything is installed

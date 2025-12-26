@@ -63,3 +63,26 @@ else
     echo "❌ Failed to stow the zshrc package."
     exit 1
 fi
+
+---
+
+## 🔗 Stow the 'tmux' Package
+
+# Ensure old configs are removed to prevent conflicts before stowing
+echo "🧹 Removing old tmux configuration at $TARGET_DIR/.tmux.conf (if it exists)."
+rm -f "$TARGET_DIR/.tmux.conf"
+
+# Perform the stow operation
+echo "✅ Stowing 'tmux' package..."
+stow --dir="$STOW_DIR" \
+     --target="$TARGET_DIR" \
+     tmux
+
+# Check if the stow operation was successful
+if [ $? -eq 0 ]; then
+    echo "🎉 Success! The symlink for tmux is now set up:"
+    echo "   $TARGET_DIR/.tmux.conf -> $STOW_DIR/tmux/.tmux.conf"
+else
+    echo "❌ Failed to stow the tmux package."
+    exit 1
+fi

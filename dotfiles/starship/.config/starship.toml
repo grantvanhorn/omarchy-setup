@@ -1,0 +1,85 @@
+format = """
+[](bg_dir)\
+$directory\
+$git_branch\
+${custom.no_git_end}\
+${custom.git_end}\
+$character\
+"""
+
+right_format = "$time"
+
+palette = 'aetheria'
+
+[palettes.aetheria]
+# --- Normal Colors (Mapped to ANSI 0-7) ---
+# Note: For clarity, these names correspond to the standard ANSI index (0-7)
+aetheria_turquoise = '#14B9B5'
+aetheria_black = '#000000'    # palette = 0
+aetheria_red = '#c8e967'      # palette = 1
+aetheria_green = '#E20342'    # palette = 2
+aetheria_yellow = '#7cd699'   # palette = 3 (Often standard yellow)
+aetheria_blue = '#BE3F50'     # palette = 4 (Often standard blue)
+aetheria_magenta = '#9147a8'  # palette = 5 (Maroon/Dark Magenta, used as 'maroon' previously)
+aetheria_orange = '#FF7F41'     # palette = 6 (Often standard cyan)
+aetheria_white = '#A60234'    # palette = 7 (Often standard white/light gray)
+
+# --- Bright Colors (Mapped to ANSI 8-15) ---
+# Note: These names correspond to the standard ANSI index (8-15)
+aetheria_bright_black = '#c53253'   # palette = 8
+aetheria_bright_red = '#CE4F48'     # palette = 9
+aetheria_bright_green = '#f93d3b'   # palette = 10
+aetheria_bright_yellow = '#FD3E6A'  # palette = 11
+aetheria_bright_blue = '#04C5F0'    # palette = 12
+aetheria_bright_magenta = '#6C032C' # palette = 13 (Dark Purple, used as 'purple' previously)
+aetheria_bright_cyan = '#ffbe74'    # palette = 14
+aetheria_bright_white = '#11AEB3'   # palette = 15
+
+white = '#ffffff'
+black = '#000000'
+
+bg_dir = '#ff7f41'
+bg_git = '#E20342'
+sy_suc = '#9147a8'
+sy_err = '#FD3E6A'
+font = '#0e091d'
+
+[character]
+success_symbol = "[](bold bg_dir)"
+error_symbol = "[](bold sy_err)"
+
+[directory]
+format = "[  ](bg:bg_dir font)[$path ](bg:bg_dir font)"
+truncation_length = 1
+truncation_symbol = ""
+
+[custom.no_git_end]
+when = '''! test -d ".git"'''
+format = "[ ](bg_dir)"
+
+[custom.git_end]
+when = '''test -d ".git"'''
+format = "[ ](bg_git)"
+
+[git_branch]
+format = "[](bg_dir bg:bg_git)[  $branch ](bg:bg_git font)"
+
+[git_status]
+format     = '[$all_status]($style)'
+style      = "cyan"
+ahead      = "⇡${count} "
+diverged   = "⇕⇡${ahead_count}⇣${behind_count} "
+behind     = "⇣${count} "
+conflicted = " "
+up_to_date = " "
+untracked  = "? "
+modified   = " "
+stashed    = ""
+staged     = ""
+renamed    = ""
+deleted    = ""
+
+[time]
+disabled = false
+time_format = "%R"
+format = '[](bg_dir)[   $time ](bg:bg_dir font)[](bg_dir)'

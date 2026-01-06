@@ -1,0 +1,134 @@
+@import "../omarchy/current/theme/waybar.css";
+
+* {
+  background-color: transparent;
+  color: #0e091d;
+
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  font-family: 'CaskaydiaMono Nerd Font';
+  font-size: 12px;
+}
+
+.modules-center,
+.modules-right {
+  background-color: #ff7f41;
+  color: #0e091d;
+  border-radius: 10px;
+  padding: 0 4px;
+  margin: 4px;
+}
+
+.modules-left {
+  margin-left: 8px;
+  margin-top: 4px;
+}
+
+.modules-right {
+  margin-right: 8px;
+}
+
+#workspaces button {
+  all: initial;
+  color: #0e091d;
+  padding: 0 6px;
+  margin: 0 1.5px;
+  min-width: 9px;
+  font-family: 'CaskaydiaMono Nerd Font';
+  font-size: 12px;
+}
+
+#workspaces button.empty {
+  opacity: 0.5;
+}
+
+/* Monitor 1 group (workspaces 1-2) */
+#workspaces button:first-child {
+  background-color: #ff7f41;
+  border-radius: 10px 0 0 10px;
+  padding-left: 10px;
+  margin-right: 0;
+}
+
+#workspaces button:nth-child(2) {
+  background-color: #ff7f41;
+  border-radius: 0 10px 10px 0;
+  padding-right: 10px;
+  margin-left: 0;
+  margin-right: 8px;
+}
+
+/* Monitor 2 group (workspaces 3+) */
+#workspaces button:nth-child(3) {
+  background-color: #ff7f41;
+  border-radius: 10px 0 0 10px;
+  padding-left: 10px;
+  margin-right: 0;
+}
+
+#workspaces button:nth-child(n+4) {
+  background-color: #ff7f41;
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#workspaces button:last-child:not(:nth-child(2)) {
+  background-color: #ff7f41;
+  border-radius: 0 10px 10px 0;
+  padding-right: 10px;
+  margin-left: 0;
+}
+
+#cpu,
+#battery,
+#pulseaudio,
+#custom-omarchy,
+#custom-screenrecording-indicator,
+#custom-update {
+  min-width: 12px;
+  margin: 0 7.5px;
+}
+
+#tray {
+  margin-right: 16px;
+}
+
+#bluetooth {
+  margin-right: 17px;
+}
+
+#network {
+  margin-right: 13px;
+}
+
+#custom-expand-icon {
+  margin-right: 20px;
+}
+
+tooltip {
+  padding: 2px;
+}
+
+#custom-update {
+  font-size: 10px;
+}
+
+#clock {
+  margin-left: 8.75px;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+#custom-screenrecording-indicator {
+  min-width: 12px;
+  margin-left: 8.75px;
+  font-size: 10px;
+}
+
+#custom-screenrecording-indicator.active {
+  color: #a55555;
+}

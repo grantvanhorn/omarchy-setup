@@ -87,3 +87,42 @@ else
     echo "❌ Failed to stow the tmux package."
     exit 1
 fi
+
+---
+
+## 🔗 Stow the 'nvim' Package
+
+NVIM_CONFIG_DIR="$TARGET_DIR/.config/nvim"
+
+# Check if nvim config directory exists
+if [ ! -d "$NVIM_CONFIG_DIR" ]; then
+    echo "⚠️  Warning: Neovim config directory not found at $NVIM_CONFIG_DIR"
+    echo "   Creating directory..."
+    mkdir -p "$NVIM_CONFIG_DIR"
+fi
+
+# Check if nvim dotfiles exist
+if [ ! -d "$STOW_DIR/nvim" ]; then
+    echo "🚨 Error: The nvim package directory was not found at $STOW_DIR/nvim."
+    echo "Please ensure your dotfiles are correctly set up at the specified location."
+    exit 1
+fi
+
+# Remove existing nvim plugin files that we're replacing to prevent stow conflicts
+echo "🧹 Removing existing nvim plugin files we're replacing..."
+rm -f "$NVIM_CONFIG_DIR/lua/plugins/neo-tree-show-hidden.lua"
+
+# Perform the stow operation
+echo "✅ Stowing 'nvim' package..."
+stow --dir="$STOW_DIR" \
+     --target="$NVIM_CONFIG_DIR" \
+     nvim
+
+# Check if the stow operation was successful
+if [ $? -eq 0 ]; then
+    echo "🎉 Success! The symlinks for nvim are now set up:"
+    echo "   $NVIM_CONFIG_DIR/lua/plugins/ -> $STOW_DIR/nvim/lua/plugins/"
+else
+    echo "❌ Failed to stow the nvim package."
+    exit 1
+fi

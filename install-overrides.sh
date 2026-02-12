@@ -60,6 +60,7 @@ echo "Removing existing hypr config files we're replacing..."
 rm -f "$HYPR_CONFIG_DIR/monitors.conf"
 rm -f "$HYPR_CONFIG_DIR/looknfeel.conf"
 rm -f "$HYPR_CONFIG_DIR/bindings.conf"
+rm -f "$HYPR_CONFIG_DIR/input.conf"
 
 # Stow hypr config
 echo "Stowing hypr config..."

@@ -25,5 +25,14 @@ cursor-color = #ff7f41
 shell-integration-features = no-cursor,ssh-env
 
 # Keyboard bindings
-keybind = shift+insert=paste_from_clipboard
-keybind = control+insert=copy_to_clipboard
+# After OS-level Alt/Control swap:
+# - Physical Alt key sends Control keycodes
+# - Physical Control key sends Alt keycodes
+#
+# So:
+# - Physical Alt+C → OS sees Control+C → Ghostty sees Control+C → interrupt process
+# - Physical Control+C → OS sees Alt+C → Ghostty sees Alt+C → copy to clipboard
+# - Physical Control+V → OS sees Alt+V → Ghostty sees Alt+V → paste from clipboard
+keybind = alt+c=text:\x03
+keybind = control+c=copy_to_clipboard
+keybind = control+v=paste_from_clipboard

@@ -1,9 +1,12 @@
--- ESLint LSP configuration for diagnostics and code actions
--- This provides red squiggly lines and code actions in addition to conform.nvim formatting
--- Note: This requires nvim-lspconfig to be installed. If you don't have it, conform.nvim alone will work.
+-- ESLint LSP configuration
+-- TypeScript support is handled by typescript-tools.nvim (see typescript-tools.lua)
 return {
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+    },
     opts = {
       servers = {
         eslint = {
@@ -32,6 +35,23 @@ return {
           end,
         },
       },
+    },
+  },
+  -- Mason for managing LSP servers
+  {
+    "williamboman/mason.nvim",
+    cmd = "Mason",
+    opts = {
+      ensure_installed = {
+        "typescript-language-server", -- TypeScript LSP (used by typescript-tools.nvim)
+        "eslint-lsp", -- ESLint LSP
+      },
+    },
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    opts = {
+      automatic_installation = true, -- Auto-install LSP servers
     },
   },
 }

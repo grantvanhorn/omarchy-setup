@@ -16,10 +16,11 @@ return {
     opts = {
       -- Define your formatters
       formatters_by_ft = {
-        javascript = { "eslint_d" },
-        javascriptreact = { "eslint_d" },
-        typescript = { "eslint_d" },
-        typescriptreact = { "eslint_d" },
+        -- Use eslint_d if available (much faster), fallback to eslint
+        javascript = { "eslint_d", "eslint" },
+        javascriptreact = { "eslint_d", "eslint" },
+        typescript = { "eslint_d", "eslint" },
+        typescriptreact = { "eslint_d", "eslint" },
         -- Fallback to prettier if eslint_d is not available
         -- You can also use both: { "eslint_d", "prettier" }
         json = { "prettier" },
@@ -32,14 +33,14 @@ return {
       format_on_save = {
         -- Enable format on save
         enabled = true,
-        -- These options will be passed to conform.format()
-        timeout_ms = 500,
+        -- Increase timeout for larger files (eslint_d should be fast, but give it time)
+        timeout_ms = 2000,
         -- Use LSP formatting as a fallback if formatter fails
-        lsp_fallback = true,
+        lsp_fallback = false, -- Disable to avoid double formatting
       },
       -- Configure formatters
       formatters = {
-        -- ESLint formatter configuration
+        -- ESLint formatter configuration (using eslint_d for performance)
         eslint_d = {
           condition = function(ctx)
             -- Only run if eslint is available

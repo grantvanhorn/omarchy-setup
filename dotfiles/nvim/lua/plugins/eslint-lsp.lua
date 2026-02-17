@@ -25,12 +25,10 @@ return {
             },
           },
           on_attach = function(client, bufnr)
-            -- Enable format on save via ESLint LSP (works alongside conform.nvim)
+            -- Disable formatting via LSP - conform.nvim handles it faster with eslint_d
+            -- ESLint LSP is only used for diagnostics (error highlighting)
             if client.name == "eslint" then
-              vim.api.nvim_create_autocmd("BufWritePre", {
-                buffer = bufnr,
-                command = "EslintFixAll",
-              })
+              client.server_capabilities.documentFormattingProvider = false
             end
           end,
         },

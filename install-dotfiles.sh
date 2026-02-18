@@ -111,6 +111,7 @@ fi
 # Remove existing nvim plugin files that we're replacing to prevent stow conflicts
 echo "🧹 Removing existing nvim plugin files we're replacing..."
 rm -f "$NVIM_CONFIG_DIR/lua/plugins/neo-tree-show-hidden.lua"
+rm -f "$NVIM_CONFIG_DIR/lua/plugins/opencode.lua"
 
 # Perform the stow operation
 echo "✅ Stowing 'nvim' package..."

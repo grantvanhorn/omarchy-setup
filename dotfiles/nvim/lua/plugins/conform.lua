@@ -29,15 +29,7 @@ return {
         lua = { "stylua" },
         -- Add more file types as needed
       },
-      -- Set up format on save (this is the key feature!)
-      format_on_save = {
-        -- Enable format on save
-        enabled = true,
-        -- Increase timeout for larger files (eslint_d should be fast, but give it time)
-        timeout_ms = 2000,
-        -- Use LSP formatting as a fallback if formatter fails
-        lsp_fallback = false, -- Disable to avoid double formatting
-      },
+      -- Note: format_on_save is handled by LazyVim automatically
       -- Configure formatters
       formatters = {
         -- ESLint formatter configuration (using eslint_d for performance)

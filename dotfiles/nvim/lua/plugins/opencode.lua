@@ -20,6 +20,11 @@ return {
       -- Enable autoread for buffer reloading (required for buffer reloading)
       vim.o.autoread = true
 
+      -- Create OpenCode command (similar to <leader>ot)
+      vim.api.nvim_create_user_command("OpenCode", function()
+        require("opencode").toggle()
+      end, { desc = "Toggle OpenCode" })
+
       -- Optional: Set global options if needed
       -- vim.g.opencode_opts = {
       --   -- Add custom options here if needed

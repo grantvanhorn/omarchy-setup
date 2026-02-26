@@ -1,10 +1,12 @@
 #!/bin/sh
 
-# Install all programs
+# Install NVM first so it's available for other scripts
+. ./install-nvm.sh
+
+# Install all other programs
 . ./install-cursor.sh
 . ./install-eza.sh
 . ./install-ghostty.sh
-. ./install-nvm.sh
 . ./install-stow.sh
 . ./install-tmux.sh
 . ./install-zsh.sh

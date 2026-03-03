@@ -11,6 +11,9 @@
 . ./install-tmux.sh
 . ./install-zsh.sh
 
+# Stow dotfiles (zshrc, tmux, nvim, ghostty, etc.) into $HOME
+. ./install-dotfiles.sh
+
 # Install overrides after everything is installed
 . ./install-overrides.sh
 

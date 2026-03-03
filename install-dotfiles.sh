@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# install-dotfiles.sh — Stow dotfiles from ./dotfiles into $HOME.
+#
+# Symlinks created by this script:
+#   ~/.zshrc                      → dotfiles/zshrc/.zshrc
+#   ~/.tmux.conf                  → dotfiles/tmux/.tmux.conf
+#   ~/.config/ghostty/config      → dotfiles/ghostty/.config/ghostty/config
+#   ~/.config/starship.toml       → dotfiles/starship/.config/starship.toml
+#   ~/.config/nvim/lua/plugins/*  → dotfiles/nvim/lua/plugins/*
+#
+# install-overrides.sh (run by setup.sh after this) stows:
+#   ~/.config/waybar/*  → dotfiles/waybar/*
+#   ~/.config/hypr/*   → dotfiles/hypr/*
+
 # --- Custom Setup Variables ---
 # The target directory for the symlinks (your home directory)
 TARGET_DIR="$HOME"
@@ -90,6 +103,60 @@ fi
 
 ---
 
+## 🔗 Stow the 'ghostty' Package
+
+GHOSTTY_CONFIG_DIR="$TARGET_DIR/.config/ghostty"
+
+if [ ! -d "$STOW_DIR/ghostty" ]; then
+    echo "⚠️  Warning: Ghostty dotfiles not found at $STOW_DIR/ghostty, skipping."
+else
+    mkdir -p "$GHOSTTY_CONFIG_DIR"
+    echo "🧹 Removing old ghostty config at $GHOSTTY_CONFIG_DIR/config (if it exists)."
+    rm -f "$GHOSTTY_CONFIG_DIR/config"
+
+    echo "✅ Stowing 'ghostty' package..."
+    stow --dir="$STOW_DIR" \
+         --target="$TARGET_DIR" \
+         ghostty
+
+    if [ $? -eq 0 ]; then
+        echo "🎉 Success! Ghostty config is now set up:"
+        echo "   $GHOSTTY_CONFIG_DIR/config -> $STOW_DIR/ghostty/.config/ghostty/config"
+    else
+        echo "❌ Failed to stow the ghostty package."
+        exit 1
+    fi
+fi
+
+---
+
+## 🔗 Stow the 'starship' Package
+
+STARSHIP_CONFIG_DIR="$TARGET_DIR/.config"
+
+if [ ! -d "$STOW_DIR/starship" ]; then
+    echo "⚠️  Warning: Starship dotfiles not found at $STOW_DIR/starship, skipping."
+else
+    mkdir -p "$STARSHIP_CONFIG_DIR"
+    echo "🧹 Removing old starship config at $STARSHIP_CONFIG_DIR/starship.toml (if it exists)."
+    rm -f "$STARSHIP_CONFIG_DIR/starship.toml"
+
+    echo "✅ Stowing 'starship' package..."
+    stow --dir="$STOW_DIR" \
+         --target="$TARGET_DIR" \
+         starship
+
+    if [ $? -eq 0 ]; then
+        echo "🎉 Success! Starship config is now set up:"
+        echo "   $STARSHIP_CONFIG_DIR/starship.toml -> $STOW_DIR/starship/.config/starship.toml"
+    else
+        echo "❌ Failed to stow the starship package."
+        exit 1
+    fi
+fi
+
+---
+
 ## 🔗 Stow the 'nvim' Package
 
 NVIM_CONFIG_DIR="$TARGET_DIR/.config/nvim"
@@ -127,3 +194,43 @@ else
     echo "❌ Failed to stow the nvim package."
     exit 1
 fi
+
+---
+
+## 🔍 Symlink verification (this script only)
+
+# Expected symlinks from THIS script (install-dotfiles.sh).
+# Waybar and Hypr are stowed by install-overrides.sh.
+echo ""
+echo "━━━ Symlink check (install-dotfiles.sh) ━━━"
+check_link() {
+    if [ -L "$1" ]; then
+        echo "  ✅ $1"
+        return 0
+    elif [ -e "$1" ]; then
+        echo "  ⚠️  $1 exists but is NOT a symlink (stow may have been skipped or overwritten)"
+        return 1
+    else
+        echo "  ❌ $1 missing"
+        return 1
+    fi
+}
+check_link "$TARGET_DIR/.zshrc"
+check_link "$TARGET_DIR/.tmux.conf"
+[ -d "$STOW_DIR/ghostty" ] && check_link "$TARGET_DIR/.config/ghostty/config"
+[ -d "$STOW_DIR/starship" ] && check_link "$TARGET_DIR/.config/starship.toml"
+# nvim: we stow into ~/.config/nvim so lua/plugins get symlinked
+if [ -d "$STOW_DIR/nvim" ]; then
+    if [ -d "$TARGET_DIR/.config/nvim/lua/plugins" ]; then
+        # Check one representative plugin symlink
+        if [ -L "$TARGET_DIR/.config/nvim/lua/plugins/conform.lua" ]; then
+            echo "  ✅ $TARGET_DIR/.config/nvim/lua/plugins/ (symlinks present)"
+        else
+            echo "  ⚠️  $TARGET_DIR/.config/nvim/lua/plugins/ exists but conform.lua is not a symlink"
+        fi
+    else
+        echo "  ❌ $TARGET_DIR/.config/nvim/lua/plugins/ missing"
+    fi
+fi
+echo "━━━ Run install-overrides.sh for waybar + hypr symlinks ━━━"
+echo ""
